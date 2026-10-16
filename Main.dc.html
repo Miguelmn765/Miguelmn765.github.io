@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Visor QGeoidCOL2023 – Puntos de prueba CORS</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F5F2}
+a{color:#0B5F6B}a:hover{color:#073F47}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F2; color: #16232B; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+
+<header style="background: #16232B; color: #FFFFFF; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px">
+<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" fill="none" stroke="#9CC9CF" stroke-width="1.6"><circle cx="15" cy="15" r="12"></circle><path d="M3 15c4-3 8 3 12 0s8-3 12 0"></path><path d="M5 9c4-2 7 2 10 0s6-2 10 0"></path><path d="M5 21c4-2 7 2 10 0s6-2 10 0"></path></svg>
+<div>
+<h1 style="margin: 0; font-size: 18px; font-weight: 600; letter-spacing: 0.2px">Visor QGeoidCOL2023</h1>
+<div style="font-size: 13px; color: #C5D1D6">Puntos de prueba CORS · Ondulación geoidal N · Método: {{methodName}}</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 12px">
+<span style="border: 1px solid #3B4B54; border-radius: 4px; padding: 4px 8px; color: #DCE5E8">Puntos_de_prueba_Cors · FeatureServer</span>
+<span style="border: 1px solid #3B4B54; border-radius: 4px; padding: 4px 8px; color: #DCE5E8">EPSG:9377</span>
+</div>
+</header>
+
+<main style="max-width: 1440px; margin: 0 auto; padding: 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+
+<aside style="flex: 1 1 250px; max-width: 300px; display: flex; flex-direction: column; gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<h2 style="margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #55626A">Capas</h2>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer; min-height: 44px">
+<input type="checkbox" checked="{{showPts}}" onChange="{{togglePts}}" style="width: 18px; height: 18px; margin: 2px 0 0; accent-color: #0B5F6B">
+<span><span style="display: block; font-weight: 600">puntos_de_referencia</span><span style="display: block; font-size: 12px; color: #55626A">Capa 0 · 5 puntos · Nombre, Latitud, Longitud, Altura</span></span>
+</label>
+<label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer; min-height: 44px">
+<input type="checkbox" checked="{{showGrid}}" onChange="{{toggleGrid}}" style="width: 18px; height: 18px; margin: 2px 0 0; accent-color: #0B5F6B">
+<span><span style="display: block; font-weight: 600">QGeoidCOL2023</span><span style="display: block; font-size: 12px; color: #55626A">Capa 2 · 32 224 nodos · malla 5′ · Ondulación</span></span>
+</label>
+<div style="display: flex; gap: 10px; align-items: flex-start; color: #55626A; min-height: 36px">
+<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="#55626A" stroke-width="1.4" style="flex: none; margin-top: 2px"><rect x="2" y="3" width="14" height="12" rx="1.5"></rect><path d="M2 7h14M2 11h14M7 3v12"></path></svg>
+<span><span style="display: block; font-weight: 600">Hoja1$</span><span style="display: block; font-size: 12px">Tabla 4 · atributos de los puntos</span></span>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<label for="metodo" style="display: block; margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #55626A">Método de interpolación</label>
+<select id="metodo" value="{{methodVal}}" onChange="{{pickMethod}}" style="width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-family: inherit; font-size: 14px">
+<option value="0">Vecino más cercano</option>
+<option value="1">Lineal por triángulos</option>
+<option value="2">Bilineal</option>
+<option value="3">Bicúbica (convolución cúbica)</option>
+<option value="4">IDW</option>
+<option value="5">Kriging ordinario</option>
+</select>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<h2 style="margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #55626A">Ondulación N (m)</h2>
+<div style="height: 14px; border-radius: 2px; border: 1px solid #C9CFCB; background: linear-gradient(to right, #1d3f8f 0%, #3763b3 13.3%, #6791ce 26.7%, #a8c3e0 40%, #eeefe9 53.3%, #f1ca98 66.7%, #e59a51 80%, #c06928 93.3%, #a8501a 100%)"></div>
+<div style="position: relative; height: 18px; margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #55626A">
+<span style="position: absolute; left: 0">−40</span>
+<span style="position: absolute; left: 26.7%; transform: translateX(-50%)">−20</span>
+<span style="position: absolute; left: 53.3%; transform: translateX(-50%); color: #16232B; font-weight: 500">0</span>
+<span style="position: absolute; left: 80%; transform: translateX(-50%)">20</span>
+<span style="position: absolute; right: 0">35</span>
+</div>
+<p style="margin: 10px 0 0; font-size: 12px; color: #55626A">Isolíneas cada 5 m; la línea gruesa es N = 0 m. El recuadro punteado es la cobertura de la malla.</p>
+</section>
+</aside>
+
+<section aria-label="Mapa" style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; overflow: hidden">
+<div style="position: relative">
+<img src="./assets/6fdb762a979ad8af8aea66688d6a0973.png" alt="Mapa de la ondulación geoidal QGeoidCOL2023 sobre Colombia con límites nacionales e isolíneas cada 5 m" style="display: block; width: 100%; height: auto; {{imgStyle}}">
+
+<sc-if value="{{showPts}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{pts}}" as="p" hint-placeholder-count="5">
+<button type="button" onClick="{{p.pick}}" aria-label="{{p.aria}}" style="position: absolute; left: {{p.left}}; top: {{p.top}}; width: 40px; height: 40px; transform: translate(-50%, -50%); padding: 0; border: none; background: transparent; cursor: pointer; display: grid; place-items: center">
+<span style="display: block; width: {{p.size}}; height: {{p.size}}; border-radius: 50%; background: #16232B; border: 2px solid #FFFFFF; box-shadow: {{p.ring}}; box-sizing: border-box"></span>
+<span style="position: absolute; top: 50%; {{p.labelSide}}; transform: translateY(-50%); white-space: nowrap; background: #FFFFFF; color: #16232B; border: 1px solid #B8C0C4; border-radius: 3px; padding: 1px 6px; font-size: 12px; font-weight: {{p.weight}}">{{p.id}} · {{p.short}}</span>
+</button>
+</sc-for>
+</sc-if>
+
+<div style="position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #B8C0C4; border-radius: 4px; overflow: hidden">
+<button type="button" aria-label="Acercar" style="width: 44px; height: 44px; border: none; border-bottom: 1px solid #D9DDD8; background: #FFFFFF; cursor: pointer; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="#16232B" stroke-width="1.8"><path d="M8 3v10M3 8h10"></path></svg></button>
+<button type="button" aria-label="Alejar" style="width: 44px; height: 44px; border: none; border-bottom: 1px solid #D9DDD8; background: #FFFFFF; cursor: pointer; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="#16232B" stroke-width="1.8"><path d="M3 8h10"></path></svg></button>
+<button type="button" aria-label="Vista inicial" style="width: 44px; height: 44px; border: none; background: #FFFFFF; cursor: pointer; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="#16232B" stroke-width="1.6"><path d="M2.5 7.5 8 3l5.5 4.5V13h-11z"></path></svg></button>
+</div>
+
+<div style="position: absolute; top: 12px; left: 12px; width: 36px; height: 44px; background: #FFFFFF; border: 1px solid #B8C0C4; border-radius: 4px; display: grid; place-items: center">
+<svg width="20" height="34" viewBox="0 0 20 34" role="img" aria-label="Norte"><path d="M10 2 16 20 10 16 4 20z" fill="#16232B"></path><text x="10" y="32" text-anchor="middle" font-size="10" font-family="IBM Plex Sans, sans-serif" fill="#16232B" font-weight="600">N</text></svg>
+</div>
+
+<div style="position: absolute; left: 12px; bottom: 12px; width: 20.5%; min-width: 80px">
+<div style="height: 6px; border: 1.5px solid #16232B; border-top: none; background: transparent"></div>
+<div style="font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: #16232B; background: rgba(255,255,255,0.85); display: inline-block; padding: 0 4px; margin-top: 2px">500 km</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 8px 12px; border-top: 1px solid #D9DDD8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #55626A">
+<span>{{cur.id}} · Lat {{cur.latF}}° · Lon {{cur.lonF}}°</span>
+<span>Servicio en EPSG:9377 · vista en coordenadas geográficas</span>
+</div>
+</section>
+
+<aside aria-label="Punto seleccionado" style="flex: 1 1 320px; max-width: 380px; display: flex; flex-direction: column; gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px">
+<span style="background: #16232B; color: #FFFFFF; border-radius: 3px; padding: 2px 8px; font-weight: 600; font-size: 13px">{{cur.id}}</span>
+<span style="border: 1px solid #0B5F6B; color: #0B5F6B; border-radius: 3px; padding: 1px 8px; font-size: 12px; font-weight: 500">{{cur.tag}}</span>
+</div>
+<h2 style="margin: 0 0 12px; font-size: 17px; font-weight: 600; line-height: 1.3">{{cur.name}}</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; font-size: 12px">
+<div><div style="color: #55626A">Latitud</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">{{cur.latF}}°</div></div>
+<div><div style="color: #55626A">Longitud</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">{{cur.lonF}}°</div></div>
+<div><div style="color: #55626A">Altura h</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">{{cur.hF}} m</div></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #E3E6E2">
+<div>
+<div style="font-size: 12px; color: #55626A">N · {{methodShort}}</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500; line-height: 1.2">{{cur.Nfmt}}<span style="font-size: 14px; color: #55626A"> m</span></div>
+</div>
+<div>
+<div style="font-size: 12px; color: #55626A">HN = h − N</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500; line-height: 1.2">{{cur.HN}}<span style="font-size: 14px; color: #55626A"> m</span></div>
+</div>
+</div>
+<p style="margin: 14px 0 0; font-size: 13px; color: #3A464D">{{cur.why}}</p>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 10px">
+<h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #55626A">Comparación de métodos</h2>
+<span style="font-size: 12px; color: #55626A">Dispersión {{cur.disp}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<sc-for list="{{mrows}}" as="r" hint-placeholder-count="6">
+<button type="button" onClick="{{r.pick}}" aria-label="{{r.aria}}" style="display: grid; grid-template-columns: minmax(0, 1.3fr) 76px minmax(0, 1fr); align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 6px; border: none; border-radius: 4px; background: {{r.bg}}; color: #16232B; text-align: left; cursor: pointer; font-size: 13px; font-weight: {{r.weight}}">
+<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right">{{r.val}}</span>
+<span style="position: relative; display: block; height: 22px">
+<span style="position: absolute; left: 50%; top: 2px; bottom: 2px; width: 1px; background: #9AA4A9"></span>
+<span style="position: absolute; top: 6px; height: 10px; border-radius: 1px; {{r.bar}}"></span>
+<span style="position: absolute; right: 0; top: -11px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #55626A">{{r.delta}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<p style="margin: 10px 0 0; font-size: 12px; color: #55626A">Barras: diferencia frente a la bilineal (azul: menor, naranja: mayor). Escala ±{{scaleTxt}} mm.</p>
+</section>
+</aside>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #D9DDD8; border-radius: 6px; padding: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 10px">
+<h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: #55626A">puntos_de_referencia · tabla de atributos</h2>
+<span style="font-size: 12px; color: #55626A">N y HN según el método: {{methodName}}</span>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 13px">
+<thead>
+<tr style="text-align: left; color: #55626A; font-size: 12px">
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600">Punto</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600">Nombre</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">Latitud (°)</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">Longitud (°)</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">h (m)</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">N (m)</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">HN (m)</th>
+<th scope="col" style="padding: 8px; border-bottom: 1px solid #D9DDD8; font-weight: 600; text-align: right">Dispersión</th>
+</tr>
+</thead>
+<tbody style="font-family: 'IBM Plex Mono', monospace; font-size: 12px">
+<tr style="background: {{r1.bg}}">
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2"><button type="button" onClick="{{r1.pick}}" aria-label="Seleccionar P1" style="min-width: 44px; min-height: 36px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-weight: 600; cursor: pointer">P1</button></td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px">{{r1.name}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.latF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.lonF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.hF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.Nfmt}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.HN}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r1.disp}}</td>
+</tr>
+<tr style="background: {{r2.bg}}">
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2"><button type="button" onClick="{{r2.pick}}" aria-label="Seleccionar P2" style="min-width: 44px; min-height: 36px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-weight: 600; cursor: pointer">P2</button></td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px">{{r2.name}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.latF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.lonF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.hF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.Nfmt}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.HN}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r2.disp}}</td>
+</tr>
+<tr style="background: {{r3.bg}}">
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2"><button type="button" onClick="{{r3.pick}}" aria-label="Seleccionar P3" style="min-width: 44px; min-height: 36px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-weight: 600; cursor: pointer">P3</button></td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px">{{r3.name}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.latF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.lonF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.hF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.Nfmt}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.HN}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r3.disp}}</td>
+</tr>
+<tr style="background: {{r4.bg}}">
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2"><button type="button" onClick="{{r4.pick}}" aria-label="Seleccionar P4" style="min-width: 44px; min-height: 36px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-weight: 600; cursor: pointer">P4</button></td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px">{{r4.name}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.latF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.lonF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.hF}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.Nfmt}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.HN}}</td>
+<td style="padding: 4px 8px; border-bottom: 1px solid #E3E6E2; text-align: right">{{r4.disp}}</td>
+</tr>
+<tr style="background: {{r5.bg}}">
+<td style="padding: 4px 8px"><button type="button" onClick="{{r5.pick}}" aria-label="Seleccionar P5" style="min-width: 44px; min-height: 36px; border: 1px solid #B8C0C4; border-radius: 4px; background: #FFFFFF; color: #16232B; font-weight: 600; cursor: pointer">P5</button></td>
+<td style="padding: 4px 8px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px">{{r5.name}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.latF}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.lonF}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.hF}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.Nfmt}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.HN}}</td>
+<td style="padding: 4px 8px; text-align: right">{{r5.disp}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin: 10px 0 0; font-size: 12px; color: #55626A">Fuente: capas 0 y 2 del servicio Puntos_de_prueba_Cors. N interpolado con GeoideInterpolacion.m; h es un valor supuesto (H aproximada + N). Dispersión = diferencia entre el mayor y el menor valor de los seis métodos.</p>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1320}}'>
+class Component extends DCLogic {
+  data() {
+    return [
+      { id: 'P1', short: 'Santa Marta', tag: 'Curvatura máxima', name: 'Sierra Nevada de Santa Marta (cerca del Pico Cristóbal Colón)', lat: 10.838, lon: -73.687, h: 5740, left: '49.150%', top: '13.651%', side: 'right', N: [10.2140, 9.9237, 9.8633, 10.0855, 9.6981, 10.0321], why: 'Domo del geoide sobre el macizo: la zona de mayor curvatura del modelo. La bilineal subestima unos 2 dm frente a bicúbica y kriging.' },
+      { id: 'P2', short: 'Leticia', tag: 'Control', name: 'Leticia (Amazonas)', lat: -4.2153, lon: -69.9406, h: 115, left: '66.179%', top: '90.848%', side: 'right', N: [18.4730, 18.4544, 18.4545, 18.4533, 18.4632, 18.4533], why: 'Geoide casi plano: punto de control. Bilineal, triángulos, bicúbica y kriging coinciden dentro de 1.3 mm.' },
+      { id: 'P3', short: 'Nodo Bogotá', tag: 'Consistencia', name: 'Nodo exacto de la malla (cerros orientales de Bogotá)', lat: 4.633333333333333, lon: -74.05, h: 2623, left: '47.500%', top: '45.470%', side: 'left', N: [23.3320, 23.3320, 23.3320, 23.3320, 23.3320, 23.3320], why: 'Cae sobre un nodo de la malla (N = 23.332 m). Todo método exacto debe devolver ese valor, y los seis lo hacen.' },
+      { id: 'P4', short: 'Pacífico', tag: 'Borde de la malla', name: 'Pacífico, frente a Tumaco (borde oeste de la malla)', lat: 1.8, lon: -79.27, h: 12.35, left: '23.773%', top: '60.000%', side: 'left', N: [12.3040, 12.3540, 12.3540, 12.3540, 12.3671, 12.3434], why: 'Primera columna de la malla, sobre el mar: la bicúbica pasa a bilineal por falta de ventana 4×4, y HN ≈ 0 por construcción (h = N).' },
+      { id: 'P5', short: 'Piedemonte', tag: 'Pendiente máxima', name: 'Piedemonte llanero (Villavicencio), centro de celda', lat: 4.175, lon: -73.591666666666667, h: 484, left: '49.583%', top: '47.821%', side: 'right', N: [16.7790, 16.4470, 16.5243, 16.4445, 16.5725, 16.4761], why: 'Centro de celda con pendiente fuerte: empate de 4 nodos en el vecino más cercano y diagonal arbitraria en triángulos. La bilineal sobreestima unos 8 cm.' }
+    ];
+  }
+  renderVals() {
+    const s = this.state || {};
+    const sel = s.sel ?? 0;
+    const m = s.method ?? 2;
+    const showPts = s.showPts ?? true;
+    const showGrid = s.showGrid ?? true;
+    const names = ['Vecino más cercano', 'Lineal por triángulos', 'Bilineal', 'Bicúbica (convolución cúbica)', 'IDW', 'Kriging ordinario'];
+    const shorts = ['vecino más cercano', 'triángulos', 'bilineal', 'bicúbica', 'IDW', 'kriging'];
+    const P = this.data();
+    const pts = P.map((p, i) => {
+      const N = p.N[m];
+      const isSel = i === sel;
+      const disp = (Math.max(...p.N) - Math.min(...p.N)) * 100;
+      return {
+        id: p.id, short: p.short, tag: p.tag, name: p.name, why: p.why, left: p.left, top: p.top,
+        latF: p.lat.toFixed(6), lonF: p.lon.toFixed(6), hF: p.h.toFixed(3),
+        Nfmt: N.toFixed(4), HN: (p.h - N).toFixed(4), disp: disp.toFixed(1) + ' cm',
+        size: isSel ? '22px' : '14px',
+        ring: isSel ? '0 0 0 3px #0B5F6B' : 'none',
+        weight: isSel ? '600' : '400',
+        labelSide: p.side === 'right' ? 'left: 34px' : 'right: 34px',
+        aria: 'Seleccionar ' + p.id + ', ' + p.short,
+        bg: isSel ? '#E7F0F1' : 'transparent',
+        pick: () => this.setState({ sel: i })
+      };
+    });
+    const cur = pts[sel];
+    const ref = P[sel].N[2];
+    const deltas = P[sel].N.map((v) => (v - ref) * 1000);
+    const scale = Math.max(1, ...deltas.map((d) => Math.abs(d)));
+    const mrows = names.map((name, k) => {
+      const d = deltas[k];
+      const w = Math.min(Math.abs(d) / scale, 1) * 50;
+      const left = d < 0 ? 50 - w : 50;
+      const color = d < 0 ? '#2F5FAE' : '#B5601F';
+      return {
+        name: name, val: P[sel].N[k].toFixed(4),
+        delta: Math.abs(d) < 0.05 ? '0 mm' : (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1) + ' mm',
+        bar: 'left: ' + left.toFixed(2) + '%; width: ' + w.toFixed(2) + '%; background: ' + color,
+        bg: k === m ? '#E7F0F1' : 'transparent',
+        weight: k === m ? '600' : '400',
+        aria: 'Usar ' + name + ': ' + P[sel].N[k].toFixed(4) + ' m',
+        pick: () => this.setState({ method: k })
+      };
+    });
+    return {
+      pts: pts, cur: cur, mrows: mrows,
+      r1: pts[0], r2: pts[1], r3: pts[2], r4: pts[3], r5: pts[4],
+      showPts: showPts, showGrid: showGrid,
+      methodName: names[m], methodShort: shorts[m], methodVal: String(m),
+      scaleTxt: scale.toFixed(scale < 10 ? 1 : 0),
+      imgStyle: showGrid ? 'opacity: 1' : 'filter: grayscale(1); opacity: 0.4',
+      togglePts: (e) => this.setState({ showPts: e.target.checked }),
+      toggleGrid: (e) => this.setState({ showGrid: e.target.checked }),
+      pickMethod: (e) => this.setState({ method: Number(e.target.value) })
+    };
+  }
+}
+</script>
+</body>
+</html>
